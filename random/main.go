@@ -17,6 +17,7 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"math/rand/v2"
 	"os"
 
@@ -27,9 +28,11 @@ import (
 // RandomEngine plays random moves
 type RandomEngine struct {
 	position *chess.Position
+	info     func(*uci.InfoCmd)
 }
 
-func (engine *RandomEngine) Initialize(ignore func(*uci.InfoCmd)) {
+func (engine *RandomEngine) Initialize(i func(*uci.InfoCmd)) {
+	engine.info = i
 }
 
 func (engine *RandomEngine) CopyProtection() bool {
@@ -71,6 +74,14 @@ func (engine *RandomEngine) SetPosition(pos *chess.Position, moves []chess.Move)
 
 func (engine *RandomEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
 	legalMoves := chess.LegalMoves(engine.position)
+	engine.info(&uci.InfoCmd{
+		Score: uci.OptionalOf(uci.InfoScore{
+			Score:        0,
+			IsMate:       false,
+			IsLowerBound: false,
+			IsUpperBound: false,
+		}),
+	})
 	return &uci.BestMove{
 		Move: legalMoves[rand.Int()%len(legalMoves)],
 	}
@@ -88,10 +99,18 @@ func (engine *RandomEngine) Quit() {
 func main() {
 	myEngine := &RandomEngine{}
 
+	logFile, err := os.Create("./random.log")
+	if err != nil {
+		os.Stderr.WriteString("Could not open log file")
+		os.Exit(1)
+	}
+	defer logFile.Close()
+
 	broker := uci.UciEngineBroker{
 		Engine: myEngine,
 		Input:  os.Stdin,
 		Output: os.Stdout,
+		Log:    slog.New(slog.NewTextHandler(logFile, &slog.HandlerOptions{Level: slog.LevelInfo})),
 	}
 
 	broker.Start(context.Background())

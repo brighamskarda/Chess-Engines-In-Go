@@ -29,9 +29,11 @@ type AlphabetEngine struct {
 	position *chess.Position
 	// reverse is true to reverse the order of the alphabet.
 	reverse bool
+	info    func(*uci.InfoCmd)
 }
 
-func (engine *AlphabetEngine) Initialize(ignore func(*uci.InfoCmd)) {
+func (engine *AlphabetEngine) Initialize(i func(*uci.InfoCmd)) {
+	engine.info = i
 }
 
 func (engine *AlphabetEngine) CopyProtection() bool {
@@ -95,6 +97,15 @@ func (engine *AlphabetEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
 			bestMoveString = text
 		}
 	}
+
+	engine.info(&uci.InfoCmd{
+		Score: uci.OptionalOf(uci.InfoScore{
+			Score:        0,
+			IsMate:       false,
+			IsLowerBound: false,
+			IsUpperBound: false,
+		}),
+	})
 
 	return &uci.BestMove{
 		Move: bestMove,
