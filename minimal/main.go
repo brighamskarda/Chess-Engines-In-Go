@@ -24,6 +24,8 @@ import (
 )
 
 // MinimalEngine will implement the simplest chess engine possible.
+//
+// It always just grabs the first legal move it sees.
 type MinimalEngine struct {
 	// We will store the position to evaluate here.
 	position *chess.Position
@@ -46,12 +48,12 @@ func (engine *MinimalEngine) Register(ignore *uci.RegisterCmd) bool {
 
 func (engine *MinimalEngine) Name() string {
 	// Give your engine a cool name.
-	return "GALACTIC CRUSHER!!!"
+	return "Minimal Engine"
 }
 
 func (engine *MinimalEngine) Author() string {
 	// Don't forget to take credit for your hard work.
-	return "John Smith"
+	return "Brigham Skarda"
 }
 
 func (engine *MinimalEngine) Options() []uci.Option {
