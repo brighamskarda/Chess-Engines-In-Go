@@ -43,7 +43,7 @@ func (engine *AlphabetEngine) Register(ignore *uci.RegisterCmd) bool {
 }
 
 func (engine *AlphabetEngine) Name() string {
-	return "AlphabetEngine"
+	return "Alphabet Engine"
 }
 
 func (engine *AlphabetEngine) Author() string {
