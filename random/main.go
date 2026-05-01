@@ -17,7 +17,6 @@ package main
 
 import (
 	"context"
-	"log/slog"
 	"math/rand/v2"
 	"os"
 
@@ -99,18 +98,10 @@ func (engine *RandomEngine) Quit() {
 func main() {
 	myEngine := &RandomEngine{}
 
-	logFile, err := os.Create("./random.log")
-	if err != nil {
-		os.Stderr.WriteString("Could not open log file")
-		os.Exit(1)
-	}
-	defer logFile.Close()
-
 	broker := uci.UciEngineBroker{
 		Engine: myEngine,
 		Input:  os.Stdin,
 		Output: os.Stdout,
-		Log:    slog.New(slog.NewTextHandler(logFile, &slog.HandlerOptions{Level: slog.LevelInfo})),
 	}
 
 	broker.Start(context.Background())
