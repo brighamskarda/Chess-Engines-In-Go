@@ -71,7 +71,7 @@ func (engine *RandomEngine) SetPosition(pos *chess.Position, moves []chess.Move)
 	}
 }
 
-func (engine *RandomEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
+func (engine *RandomEngine) Evaluate(ignore *uci.EvaluateCmd) uci.BestMove {
 	legalMoves := chess.LegalMoves(engine.position)
 	engine.info(&uci.InfoCmd{
 		Score: uci.OptionalOf(uci.InfoScore{
@@ -81,7 +81,7 @@ func (engine *RandomEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
 			IsUpperBound: false,
 		}),
 	})
-	return &uci.BestMove{
+	return uci.BestMove{
 		Move: legalMoves[rand.Int()%len(legalMoves)],
 	}
 }

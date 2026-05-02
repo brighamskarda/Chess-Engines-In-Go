@@ -84,7 +84,7 @@ func (engine *AlphabetEngine) SetPosition(pos *chess.Position, moves []chess.Mov
 	}
 }
 
-func (engine *AlphabetEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
+func (engine *AlphabetEngine) Evaluate(ignore *uci.EvaluateCmd) uci.BestMove {
 	legalMoves := chess.LegalMoves(engine.position)
 	bestMove := legalMoves[0]
 	bestMoveString, _ := bestMove.MarshalText()
@@ -107,7 +107,7 @@ func (engine *AlphabetEngine) Evaluate(ignore *uci.EvaluateCmd) *uci.BestMove {
 		}),
 	})
 
-	return &uci.BestMove{
+	return uci.BestMove{
 		Move: bestMove,
 	}
 }
