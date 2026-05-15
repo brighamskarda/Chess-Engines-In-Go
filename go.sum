@@ -1,2 +1,4 @@
 github.com/brighamskarda/chess/v2 v2.1.0-beta.3.0.20260502001412-276516cc7e75 h1:k/YL6wLK4jIvd9LRVJRrw3wEmY4554psIg9IOoYqQu8=
 github.com/brighamskarda/chess/v2 v2.1.0-beta.3.0.20260502001412-276516cc7e75/go.mod h1:m+evUtjvOIuk6BHpEJy18DQD3xVXJkdF7IQDmQ9X4dE=
+github.com/brighamskarda/chess/v2 v2.1.0 h1:7qFYqUM6waGHn0luqdIZF6byS6fKJkNRe4Q6e0hajDs=
+github.com/brighamskarda/chess/v2 v2.1.0/go.mod h1:m+evUtjvOIuk6BHpEJy18DQD3xVXJkdF7IQDmQ9X4dE=
